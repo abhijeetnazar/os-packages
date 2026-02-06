@@ -1,0 +1,81 @@
+# Homebrew Bundle - MacOS Setup
+# Use: brew bundle install --file=Brewfile
+
+# --- Taps ---
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/core"
+
+# --- Formulas ---
+brew "git"
+brew "docker"
+brew "apache-spark"
+brew "blackhole-16ch"
+brew "zsh"
+brew "scala"
+
+# --- Casks ---
+# Utilities
+cask "iterm2"
+cask "warp"
+cask "rectangle"
+cask "tiles"
+cask "alfred"
+cask "alt-tab"
+cask "shottr"
+cask "hiddenbar"
+cask "github"
+cask "pensela"
+cask "onyx"
+cask "appcleaner"
+cask "vnc-viewer"
+cask "vnc-server"
+
+# Multimedia
+cask "vlc"
+cask "elmedia-player"
+cask "obs"
+cask "xnviewmp"
+cask "spotify"
+cask "audacity"
+cask "handbrake"
+cask "kdenlive"
+cask "avidemux"
+cask "losslesscut"
+cask "5kplayer"
+cask "gimp"
+cask "ksnip"
+
+# Internet & Communication
+cask "google-chrome"
+cask "microsoft-edge"
+cask "zoom"
+cask "whatsapp"
+cask "google-drive"
+cask "free-download-manager"
+cask "qbittorrent"
+cask "openvpn-connect"
+
+# Productivity
+cask "microsoft-office"
+cask "adobe-acrobat-reader"
+cask "calibre"
+cask "coteditor"
+cask "kindle"
+cask "transnomino"
+cask "iriunwebcam"
+cask "microsoft-remote-desktop"
+cask "anydesk"
+cask "obsidian"
+
+# Development
+cask "visual-studio-code"
+cask "phoenix-code"
+cask "anaconda"
+cask "postman"
+cask "dbeaver-community"
+cask "oracle-jdk"
+cask "antigravity"
+cask "pycharm-ce"
+cask "sourcetree"
+cask "brackets"

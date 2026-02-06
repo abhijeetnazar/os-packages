@@ -1,86 +1,43 @@
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/abhijeetnazar/.zprofile
-eval "$(/opt/homebrew/bin/brew shellenv)"
+#!/bin/bash
 
-# ZSH
-brew install --cask iterm2
-brew install zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-source ~/.zshrc
+# packages.sh - Production-grade MacOS Environment Setup
+# Author: Antigravity AI
+# Description: Wrapper for setup.sh or standalone production-grade installation using Brewfile.
 
-# New
-brew install --cask losslesscut
-brew install --cask tiles
-brew install --cask free-download-manager
-brew install --cask github
-brew install --cask warp
-# https://www.neatdownloadmanager.com/index.php/en/
+set -e
 
-# Multimedia 
-brew install --cask 5kplayer # Video player
-brew install --cask elmedia-player # Video player
-brew install --cask vlc # Video player
-brew install --cask obs # Screen recorder
-brew install --cask xnviewmp # Image viewer
-brew install --cask spotify # Music player
-brew install --cask audacity # Audio editor
-brew install --cask handbrake # Video converter
-brew install --cask kdenlive # Video editor
-brew install --cask avidemux # Video editor
-brew install --cask affinity-photo # Photo editor
-# Google
-brew install --cask google-drive
-brew install --cask google-chrome
-# MS
-brew install --cask microsoft-office
-brew install --cask microsoft-edge
-# Office
-brew install --cask zoom
-brew install --cask adobe-acrobat-reader
-brew install --cask calibre
-brew install --cask coteditor
+# --- Logging Setup ---
+BLUE='\033[0;34m'
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m'
 
-# System
-brew install --cask shottr # screenshot tool
-brew install --cask kindle # Book reader
-brew install --cask qbittorrent # Bit torrent client
-brew install --cask transnomino # Bulk file renamer for Mac
-brew install --cask iriunwebcam # Convert android phone to webcam
-brew install --cask microsoft-remote-desktop # Windows remote desktop client
-brew install blackhole-16ch
+log_info() { echo -e "${BLUE}[INFO]${NC} $1"; }
+log_success() { echo -e "${GREEN}[SUCCESS]${NC} $1"; }
+log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
 
-brew install --cask alt-tab # Windows like functionaltiy on mac
-brew install --cask alfred # Spotlight replacement and works better than spotlight
-brew install --cask rectangle # Window Manager for mac
-brew install --cask pensela # Open source tool for screen annotation
-brew install --cask openvpn-connect # VPN client
+# Check for setup.sh wrapper
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "$SCRIPT_DIR/setup.sh" ]; then
+    log_info "Redirecting to setup.sh..."
+    exec "$SCRIPT_DIR/setup.sh"
+fi
 
-# Development
-brew install --cask visual-studio-code
-brew install --cask phoenix-code
-brew install --cask anaconda
-brew install --cask postman
-brew install --cask dbeaver-community
-brew install --cask oracle-jdk
-brew cask install java
-brew install apache-spark
-brew install git
-brew install docker
+# Fallback production-grade logic if setup.sh is missing
+log_info "Starting MacOS environment setup..."
 
-# Communication
-brew install --cask whatsapp
+if ! command -v brew >/dev/null 2>&1; then
+    log_info "Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
-# Others
-brew install --cask onyx # cleanmymac
-brew install --cask appcleaner # clean up apps
-
-
-# Legacy
-# brew install --cask gimp # Image editor
-# brew install --cask obsidian
-# brew install --cask anydesk # Remote desktop managment
-# brew install --cask hiddenbar # Hide dock and menu bar
-# brew install scala
-# brew install --cask pycharm-ce
-# brew install --cask sourcetree
-# brew install --cask brackets
+BREWFILE="$SCRIPT_DIR/Brewfile"
+if [ -f "$BREWFILE" ]; then
+    log_info "Installing packages from $BREWFILE..."
+    brew bundle install --file="$BREWFILE"
+    log_success "Setup completed successfully!"
+else
+    log_error "Brewfile not found at $BREWFILE"
+    exit 1
+fi

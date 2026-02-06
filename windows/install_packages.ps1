@@ -1,1 +1,0 @@
-choco install .\packages.config -y --ignore-checksums
